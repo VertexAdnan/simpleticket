@@ -5,8 +5,18 @@ if (!connect()) {
     die("Something went wrong!");
 }
 
+if (isset($_POST['subAdd'])) {
+    if(addSubject($_POST['subAdd'])){
+        header("location: subjects");
+    }
+}
 
-
+if(isset($_POST['addUser']))
+{
+    if(createUser($_POST['username'], $_POST['password'], $_POST['userlevel'])){
+        header("location: users");
+    }
+}
 
 if (isset($_POST['auth'])) {
     $user = auth($_POST['username'], $_POST['password']);
@@ -51,6 +61,29 @@ function connect()
     return new PDO('mysql:host=' . mysql_host . ';dbname=' . mysql_table . '', mysql_user, mysql_pass);
 }
 
+function createUser($username, $pass, $level)
+{
+    $pass = md5($pass);
+    $query = connect()->prepare("INSERT INTO `users`(`username`, `password`, `userlevel`) VALUES ('$username','$pass','$level')");
+
+    return $query->execute();
+}
+
+function getUsers()
+{
+    $query = connect()->prepare("SELECT * FROM users ORDER BY customer_id DESC");
+    $query->execute();
+
+    return $query->fetchAll();
+}
+
+function addSubject($name)
+{
+    $query = connect()->prepare("INSERT INTO `subjects`( `sub_name`) VALUES ('$name')");
+
+    return $query->execute();
+}
+
 function auth($username, $password)
 {
     $md5 = md5($password);
@@ -61,6 +94,19 @@ function auth($username, $password)
 
     if ($query->rowCount() == 1) {
         return $query->fetchAll();
+    } else {
+        return false;
+    }
+}
+
+function isAdmin()
+{
+    $query = connect()->prepare("SELECT userlevel FROM users WHERE customer_id = '" . $_SESSION['customer_id'] . "'");
+    $query->execute();
+    $level = $query->fetchColumn();
+
+    if ($level == 1) {
+        return true;
     } else {
         return false;
     }

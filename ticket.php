@@ -1,4 +1,15 @@
 <?php include '_header.php'; ?>
+<style>
+    .res-box {
+        display: grid;
+        width: 50%;
+        position: absolute;
+        overflow-y: hidden;
+        row-gap: 10px;
+        background: white;
+        background-size: 100%;
+    }
+</style>
 <div class="dx-main">
     <header class="dx-header dx-box-1">
         <div class="container">
@@ -9,7 +20,10 @@
             <div class="row justify-content-center">
                 <div class="col-xl-7">
                     <h1 class="h2 mb-30 text-white text-center">Ticket Ara</h1>
-                    <input type="text" id="search-input" class="form-control" placeholder="Ticket Başlığı...">
+                    <input type="text" id="sinput" class="form-control" placeholder="Ticket Başlığı...">
+                    <div style="display: none" class="res-box">
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -48,5 +62,34 @@
     <div class="dx-separator"></div>
 </div>
 
+<script>
+    $(document).click(function() {
+        $(".res-box").css("display", "none")
+    });
+
+    $("#sinput").on("click", () => {
+        $("#sinput").val('')
+    })
+
+    $("#sinput").on("keyup", () => {
+        $.ajax({
+            type: "POST",
+            url: "api/search",
+            dataType: "JSON",
+            data: {
+                search: $("#sinput").val()
+            },
+            success: (data) => {
+                $(".res-box").css("display", "grid")
+                /*  if (data.results.length == 0) {
+                    $(".res-box").html("Data bulunamadı")
+                }   */
+                data.results.map((e) => {
+                    $(".res-box").append(`<a href="t?id=${e.ticket_id}">${e.title}</a>`)
+                })
+            }
+        })
+    })
+</script>
 
 <?php include '_foot.php'; ?>

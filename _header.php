@@ -30,5 +30,17 @@ if (!isset($_SESSION['customer_id'])) {
     <link rel="stylesheet" href="assets/css/custom.css">
     <script src="assets/vendor/jquery/dist/jquery.min.js"></script>
 </head>
+<div class="dx-box bg-white">
+    <div class="container">
+        <ul class="dx-links text-center">
+            <li><a href="ticket">Anasayfa</a></li>
+            <li><a href="create-ticket">Yeni Talep Oluştur</a></li>
+            <?php if (isAdmin()) { ?>
+                <li><a href="users">Kullanıcılar</a></li>
+                <li><a href="subjects">Konular</a></li>
+            <?php } ?>
+        </ul>
+    </div>
+</div>
 
 <body>

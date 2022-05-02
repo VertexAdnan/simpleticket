@@ -7,14 +7,7 @@
                 <div class="col-xl-7">
                     <div class="dx-box dx-box-decorated">
                         <div class="dx-box-content">
-                            <h2 class="h6 mb-6">Submit a Ticket</h2>
-
-                            <ul class="dx-breadcrumbs text-left dx-breadcrumbs-dark mnb-6 fs-14">
-                                <li><a href="help-center.html">Support Home</a></li>
-                                <li><a href="ticket.html">Ticket System</a></li>
-                                <li>Submit Ticket</li>
-                            </ul>
-
+                            <h2 class="h6 mb-6">Yeni Ticket</h2>
                         </div>
                         <div class="dx-separator"></div>
                         <form method="post" class="dx-form" enctype="multipart/form-data">
